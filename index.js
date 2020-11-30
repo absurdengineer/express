@@ -14,8 +14,10 @@ app.get("/api/classes/",(req,res) => {
     res.send(["First","Second","Third"])
 });
 
-app.listen(3000,() => { 
-    console.log("Listening on port 3000... ")
-    console.log("Server Started at http://127.0.0.1:3000/")
+const port = process.env.PORT || 3000
+
+app.listen(port,() => { 
+    console.log(`Listening on port ${port}... `)
+    console.log(`Server Started at http://127.0.0.1:${port}/`)
 
 });
