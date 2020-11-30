@@ -7,7 +7,27 @@ app.get("/",(req,res) => {
 });
 
 app.get("/api/courses/",(req,res) => {
-    res.send([1,2,3,4,5])
+    res.send([
+        {courseId : 1, name : "Python"},
+        {courseId : 2, name : "JavaScript"},
+        {courseId : 3, name : "Java"},
+        {courseId : 4, name : "Spring"},
+        {courseId : 5, name : "MySQl"},
+    ])
+});
+
+app.get("/api/course/:courseId/",(req,res) => {
+    const courseId = req.params.courseId
+    if(courseId == 1) res.send({courseId : 1, name : "Python"})
+    else if(courseId == 2) res.send({courseId : 2, name : "JavaScript"})
+    else if(courseId == 3) res.send({courseId : 3, name : "Java"})
+    else if(courseId == 4) res.send({courseId : 4, name : "Spring"})
+    else if(courseId == 5) res.send({courseId : 5, name : "MySQl"})
+    else res.send("Course Not Found")
+});
+
+app.get("/api/posts/:year/:month/",(req,res) => {
+    res.send(req.params)
 });
 
 app.get("/api/classes/",(req,res) => {
