@@ -2,6 +2,8 @@ const express = require("express")
 
 const app = express()
 
+const port = process.env.PORT || 3000
+
 const courses = [
     {courseId : 1, name : "Python"},
     {courseId : 2, name : "JavaScript"},
@@ -9,6 +11,8 @@ const courses = [
     {courseId : 4, name : "Spring"},
     {courseId : 5, name : "MySQl"},
 ]
+
+app.use(express.json())
 
 app.get("/",(req,res) => {
     res.send("Hello World")
@@ -23,18 +27,17 @@ app.get("/api/course/:courseId/",(req,res) => {
     let course = courses.find(c => c.courseId === parseInt(req.params.courseId))
     if(!course) res.status(404).send("The course with given id doesn't exists.")
     res.send(course)
-    
 });
 
-app.get("/api/posts/:year/:month/",(req,res) => {
-    res.send(req.query)
+app.post("/api/courses/",(req,res) => {
+    const course = {
+        courseId : courses.length + 1,
+        name : req.body.name
+    }
+    courses.push(course)
+    res.status(200).send(course)
 });
 
-app.get("/api/classes/",(req,res) => {
-    res.send(["First","Second","Third"])
-});
-
-const port = process.env.PORT || 3000
 
 app.listen(port,() => { 
     console.log(`Listening on port ${port}... `)
