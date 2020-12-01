@@ -1,5 +1,5 @@
 const express = require("express")
-
+const Joi = require('joi')
 const app = express()
 
 const port = process.env.PORT || 3000
@@ -11,6 +11,7 @@ const courses = [
     {courseId : 4, name : "Spring"},
     {courseId : 5, name : "MySQl"},
 ]
+
 
 app.use(express.json())
 
@@ -30,9 +31,15 @@ app.get("/api/course/:courseId/",(req,res) => {
 });
 
 app.post("/api/courses/",(req,res) => {
-    if(!req.body.name){
-        res.status(400).send("Unable to process your request...")
-        return;
+
+    const schema = Joi.object({
+        name : Joi.string().min(1).required()
+    })
+ 
+    const result = schema.validate(req.body)
+    if(result.error) {
+        res.status(400).send(result.error.message)
+        return
     }
     const course = {
         courseId : courses.length + 1,
