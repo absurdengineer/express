@@ -12,6 +12,13 @@ const courses = [
     {courseId : 5, name : "MySQl"},
 ]
 
+const vaidateCourse = course => {
+    const schema = Joi.object({
+        name : Joi.string().min(1).required()
+    })
+ 
+    return schema.validate(course)
+}
 
 app.use(express.json())
 
@@ -32,13 +39,10 @@ app.get("/api/course/:courseId/",(req,res) => {
 
 app.post("/api/courses/",(req,res) => {
 
-    const schema = Joi.object({
-        name : Joi.string().min(1).required()
-    })
- 
-    const result = schema.validate(req.body)
-    if(result.error) {
-        res.status(400).send(result.error.message)
+    const {error} = validateCourse(req.body)
+
+    if(error) {
+        res.status(400).send(error.message)
         return
     }
     const course = {
@@ -57,13 +61,10 @@ app.put("/api/course/:courseId",(req,res) => {
         return
     }
     
-    const schema = Joi.object({
-        name : Joi.string().min(1).required()
-    })
- 
-    const result = schema.validate(req.body)
-    if(result.error) {
-        res.status(400).send(result.error.message)
+    const {error} = vaidateCourse(req.body)
+    
+    if(error) {
+        res.status(400).send(error.message)
         return
     }
 
@@ -72,8 +73,10 @@ app.put("/api/course/:courseId",(req,res) => {
 });
 
 
+
 app.listen(port,() => { 
     console.log(`Listening on port ${port}... `)
     console.log(`Server Started at http://127.0.0.1:${port}/`)
 
 });
+
