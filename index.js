@@ -12,7 +12,7 @@ const courses = [
     {courseId : 5, name : "MySQl"},
 ]
 
-const vaidateCourse = course => {
+const validateCourse = course => {
     const schema = Joi.object({
         name : Joi.string().min(1).required()
     })
@@ -33,8 +33,8 @@ app.get("/api/courses/",(req,res) => {
 app.get("/api/course/:courseId/",(req,res) => {
 
     let course = courses.find(c => c.courseId === parseInt(req.params.courseId))
-    
-    if(!course) res.status(404).send("The course with given id doesn't exists.")
+
+    if(!course) return res.status(404).send("The course with given id doesn't exists.")
     res.send(course)
 
 });
@@ -43,10 +43,7 @@ app.post("/api/courses/",(req,res) => {
 
     const {error} = validateCourse(req.body)
 
-    if(error) {
-        res.status(400).send(error.message)
-        return
-    }
+    if(error) return res.status(400).send(error.message)
 
     const course = {
         courseId : courses.length + 1,
@@ -61,17 +58,11 @@ app.post("/api/courses/",(req,res) => {
 app.put("/api/course/:courseId",(req,res) => {
 
     let course = courses.find(c => c.courseId === parseInt(req.params.courseId))
-    if(!course) {
-        res.status(404).send("The course with given id doesn't exists.")
-        return
-    }
+    if(!course) return res.status(404).send("The course with given id doesn't exists.")
+
+    const {error} = validateCourse(req.body)
     
-    const {error} = vaidateCourse(req.body)
-    
-    if(error) {
-        res.status(400).send(error.message)
-        return
-    }
+    if(error) return res.status(400).send(error.message)
 
     course.name = req.body.name
     res.status(200).send(course)
@@ -81,10 +72,7 @@ app.put("/api/course/:courseId",(req,res) => {
 app.delete("/api/course/:courseId",(req,res) => {
  
     let course = courses.find(c => c.courseId === parseInt(req.params.courseId))
-    if(!course) {
-        res.status(404).send("The course with given id doesn't exists.")
-        return
-    }
+    if(!course) return res.status(404).send("The course with given id doesn't exists.")
   
     courses.pop(course.courseId)
     res.status(200).send(`Successfully Deleted Course : ${course.name}`)
