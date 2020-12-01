@@ -49,6 +49,28 @@ app.post("/api/courses/",(req,res) => {
     res.status(200).send(course)
 });
 
+app.put("/api/course/:courseId",(req,res) => {
+
+    let course = courses.find(c => c.courseId === parseInt(req.params.courseId))
+    if(!course) {
+        res.status(404).send("The course with given id doesn't exists.")
+        return
+    }
+    
+    const schema = Joi.object({
+        name : Joi.string().min(1).required()
+    })
+ 
+    const result = schema.validate(req.body)
+    if(result.error) {
+        res.status(400).send(result.error.message)
+        return
+    }
+
+    course.name = req.body.name
+    res.status(200).send(course)
+});
+
 
 app.listen(port,() => { 
     console.log(`Listening on port ${port}... `)
