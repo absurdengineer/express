@@ -33,8 +33,10 @@ app.get("/api/courses/",(req,res) => {
 app.get("/api/course/:courseId/",(req,res) => {
 
     let course = courses.find(c => c.courseId === parseInt(req.params.courseId))
+    
     if(!course) res.status(404).send("The course with given id doesn't exists.")
     res.send(course)
+
 });
 
 app.post("/api/courses/",(req,res) => {
@@ -45,12 +47,15 @@ app.post("/api/courses/",(req,res) => {
         res.status(400).send(error.message)
         return
     }
+
     const course = {
         courseId : courses.length + 1,
         name : req.body.name
     }
+
     courses.push(course)
     res.status(200).send(course)
+
 });
 
 app.put("/api/course/:courseId",(req,res) => {
@@ -70,11 +75,24 @@ app.put("/api/course/:courseId",(req,res) => {
 
     course.name = req.body.name
     res.status(200).send(course)
+
 });
 
+app.delete("/api/course/:courseId",(req,res) => {
+ 
+    let course = courses.find(c => c.courseId === parseInt(req.params.courseId))
+    if(!course) {
+        res.status(404).send("The course with given id doesn't exists.")
+        return
+    }
+  
+    courses.pop(course.courseId)
+    res.status(200).send(`Successfully Deleted Course : ${course.name}`)
 
+ });
 
 app.listen(port,() => { 
+
     console.log(`Listening on port ${port}... `)
     console.log(`Server Started at http://127.0.0.1:${port}/`)
 
