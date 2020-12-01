@@ -30,6 +30,10 @@ app.get("/api/course/:courseId/",(req,res) => {
 });
 
 app.post("/api/courses/",(req,res) => {
+    if(!req.body.name){
+        res.status(400).send("Unable to process your request...")
+        return;
+    }
     const course = {
         courseId : courses.length + 1,
         name : req.body.name
