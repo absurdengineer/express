@@ -1,5 +1,6 @@
 const express = require("express")
 const Joi = require('joi')
+const logger  = require("./logger")
 const app = express()
 
 const port = process.env.PORT || 3000
@@ -21,6 +22,8 @@ const validateCourse = course => {
 }
 
 app.use(express.json())
+
+app.use(logger)
 
 app.get("/",(req,res) => {
     res.send("Hello World")
