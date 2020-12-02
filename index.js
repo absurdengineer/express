@@ -74,8 +74,8 @@ app.delete("/api/course/:courseId",(req,res) => {
     let course = courses.find(c => c.courseId === parseInt(req.params.courseId))
     if(!course) return res.status(404).send("The course with given id doesn't exists.")
   
-    courses.pop(course.courseId)
-    res.status(200).send(`Successfully Deleted Course : ${course.name}`)
+    courses.splice(course.courseId - 1, 1)
+    res.status(200).send(course)
 
  });
 
