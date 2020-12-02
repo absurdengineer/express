@@ -3,7 +3,7 @@ const Joi = require('joi')
 const logger  = require("./logger")
 const app = express()
 
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 8080
 
 const courses = [
     {courseId : 1, name : "Python"},
@@ -21,7 +21,11 @@ const validateCourse = course => {
     return schema.validate(course)
 }
 
-app.use(express.json())
+app.use(express.json())  // convert request body into proper JSON format.
+
+app.use(express.urlencoded({extended : true}))  // Deals with Form data such as terget.js?key1=value1&key2=value2
+
+app.use(express.static('public'))  // used to serve static files at root of the project such as http:127.0.0.1:8080/readMe.txt 
 
 app.use(logger)
 
