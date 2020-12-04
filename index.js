@@ -1,3 +1,5 @@
+const helmet = require('helmet')
+const morgan = require('morgan')
 const express = require("express")
 const Joi = require('joi')
 const logger  = require("./logger")
@@ -27,7 +29,11 @@ app.use(express.urlencoded({extended : true}))  // Deals with Form data such as 
 
 app.use(express.static('public'))  // used to serve static files at root of the project such as http:127.0.0.1:8080/readMe.txt 
 
-app.use(logger)
+app.use(logger)     // logger : user defined middleware
+
+app.use(helmet())   // third party middleware which helps you secure your Express apps by setting various HTTP headers.
+
+app.use(morgan('tiny'))   // third party middleware which logs all the HTTP requests.
 
 app.get("/",(req,res) => {
     res.send("Hello World")
