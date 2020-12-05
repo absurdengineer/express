@@ -23,6 +23,12 @@ const validateCourse = course => {
     return schema.validate(course)
 }
 
+// set environment variable using this command `export NODE_ENV=production 
+
+// console.log(process.env.NODE_ENV)   return undefined if not set
+
+// console.group(app.get('env'))       return development if not set
+
 app.use(express.json())  // convert request body into proper JSON format.
 
 app.use(express.urlencoded({extended : true}))  // Deals with Form data such as terget.js?key1=value1&key2=value2
@@ -33,7 +39,11 @@ app.use(logger)     // logger : user defined middleware
 
 app.use(helmet())   // third party middleware which helps you secure your Express apps by setting various HTTP headers.
 
-app.use(morgan('tiny'))   // third party middleware which logs all the HTTP requests.
+if(app.get('env') === "production"){        // only execute in production environment
+    console.log("Morgan Enablled...")
+    app.use(morgan('tiny'))   // third party middleware which logs all the HTTP requests.
+}
+
 
 app.get("/",(req,res) => {
     res.send("Hello World")
