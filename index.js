@@ -46,10 +46,13 @@ app.use(logger)     // logger : user defined middleware
 
 app.use(helmet())   // third party middleware which helps you secure your Express apps by setting various HTTP headers.
 
+app.set('view engine', 'pug')  // specify the template engine
+app.set('views','./views')     // specify location for views(optional) by default its ./views
+
 //Configuration
-console.log("App Name : " + configuration.get('name'))
-console.log("Mail Server Name : " + configuration.get('mail.host'))
-console.log("Mail Server Password : " + configuration.get('mail.password'))
+//console.log("App Name : " + configuration.get('name'))
+//console.log("Mail Server Name : " + configuration.get('mail.host'))
+//console.log("Mail Server Password : " + configuration.get('mail.password'))
 
 
 if(app.get('env') === "production"){        // only execute in production environment
@@ -59,7 +62,11 @@ if(app.get('env') === "production"){        // only execute in production enviro
 
 
 app.get("/",(req,res) => {
-    res.send("Hello World")
+    objectToTemplate = {
+        title : "Homepage",
+        message : "Hello Programmer"
+    }
+    res.render('index.pug',objectToTemplate)
 });
 
 app.get("/api/courses/",(req,res) => {
