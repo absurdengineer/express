@@ -7,7 +7,7 @@ router.get("/",(req,res) => {
         title : "Homepage",
         message : "Hello Programmer"
     }
-    res.render('index.pug',objectToTemplate)
+    res.render('index',objectToTemplate)
 });
 
 module.exports = router

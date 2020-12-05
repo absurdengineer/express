@@ -3,7 +3,7 @@ const customDebugger = require('debug')('app:custom')  // pass the namespace you
 const helmet = require('helmet')
 const morgan = require('morgan')
 const express = require("express")
-//const logger  = require("./logger")
+//const logger  = require("./middleware/logger")
 const courses = require('./routes/api/courses.api')
 const home = require('./routes/pages/home.page')
 
