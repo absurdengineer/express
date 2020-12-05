@@ -1,3 +1,4 @@
+const customDebugger = require('debug')('app:custom')  // pass the namespace you want to create debugger
 const configuration = require('config')
 const helmet = require('helmet')
 const morgan = require('morgan')
@@ -20,10 +21,15 @@ const validateCourse = course => {
     const schema = Joi.object({
         name : Joi.string().min(1).required()
     })
- 
+    customDebugger(course)
+    // For debugging store an env variable DEBUG with value of the namespace
+    // i.e., DEBUG=app:custom  or for multiple debugger we can create them and set env as
+    // DEBUG=app:custom,app:db 
+    // We can also debug our code without setting env variable by running our code as
+    // $DEBUG=app:custom nodemon index.js
     return schema.validate(course)
 }
-
+customDebugger("Custom Debbugger Enabled...")
 // set environment variable using this command `export NODE_ENV=production 
 
 // console.log(process.env.NODE_ENV)   return undefined if not set
