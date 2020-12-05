@@ -1,3 +1,4 @@
+const configuration = require('config')
 const helmet = require('helmet')
 const morgan = require('morgan')
 const express = require("express")
@@ -38,6 +39,12 @@ app.use(express.static('public'))  // used to serve static files at root of the 
 app.use(logger)     // logger : user defined middleware
 
 app.use(helmet())   // third party middleware which helps you secure your Express apps by setting various HTTP headers.
+
+//Configuration
+console.log("App Name : " + configuration.get('name'))
+console.log("Mail Server Name : " + configuration.get('mail.host'))
+console.log("Mail Server Password : " + configuration.get('mail.password'))
+
 
 if(app.get('env') === "production"){        // only execute in production environment
     console.log("Morgan Enablled...")

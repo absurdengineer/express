@@ -1,0 +1,6 @@
+Name these files exactly like this to get going with config module
+
+"""Never Store your password in any config file.
+"""instead set an environment variable and fetch it.
+"""in this condition password is saved in env variable named express_password
+"""check custom-environment-variable.json to get the idea how to fetch it
